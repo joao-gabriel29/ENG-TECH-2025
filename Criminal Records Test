@@ -1,0 +1,233 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNNCClspHcE+/B+ZXypRsJS",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/joao-gabriel29/ENG-TECH-2025/blob/main/Criminal%20Records%20Test\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import sqlite3"
+      ],
+      "metadata": {
+        "id": "0Vwx3VKXLBL7"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "conn = sqlite3.connect(\"banco_criminals.db\")\n",
+        "cursor = conn.cursor()"
+      ],
+      "metadata": {
+        "id": "FYM8mRDmPCFb"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "cursor.execute(\"\"\"\n",
+        "CREATE TABLE IF NOT EXISTS criminals (\n",
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,\n",
+        "name TEXT,\n",
+        "age INTEGER,\n",
+        "crimes TEXT,\n",
+        "height TEXT,\n",
+        "weight TEXT,\n",
+        "gender TEXT,\n",
+        "nationality TEXT,\n",
+        "notes TEXT\n",
+        ")\n",
+        "\"\"\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "pHKXvKTAPUHS",
+        "outputId": "9147e92c-cefa-4614-deb3-551078a32654"
+      },
+      "execution_count": 51,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<sqlite3.Cursor at 0x78e64c3e2d40>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 51
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "name = input(\"Digite seu nome: \")\n",
+        "age = int(input(\"Digite sua idade: \"))\n",
+        "crimes = input(\"Digite os crimes que cometeu: \")\n",
+        "height = input(\"Digite sua altura: \")\n",
+        "weight = input(\"Digite seu peso: \")\n",
+        "gender = input(\"Digite seu gênero: \")\n",
+        "nationality = input(\"Digite sua nacionalidade: \")\n",
+        "notes = input(\"Digite suas observações: \")"
+      ],
+      "metadata": {
+        "id": "_uyPyfB8Pwuf",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "36c7e749-c009-45ce-cf38-1a30e9abada8"
+      },
+      "execution_count": 52,
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Digite seu nome: Javier\n",
+            "Digite sua idade: 38\n",
+            "Digite os crimes que cometeu: Assassinato\n",
+            "Digite sua altura: 1,78cm\n",
+            "Digite seu peso: 75kg\n",
+            "Digite seu gênero: Masculino\n",
+            "Digite sua nacionalidade: Mexicano\n",
+            "Digite suas observações: *Capturado e assassinado*\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "cursor.execute(\"INSERT INTO criminals (name, age, crimes, height, weight, gender, nationality) VALUES (?, ?, ?, ?, ?, ?, ?)\", (name, age, crimes, height, weight, gender, nationality))\n",
+        "conn.commit() # salva a transação no banco"
+      ],
+      "metadata": {
+        "id": "8vkM9NPLQo0M"
+      },
+      "execution_count": 54,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "cursor.execute(\"SELECT * FROM criminals\")\n",
+        "for linha in cursor.fetchall():\n",
+        "  print(linha)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "JhPT1LLpSZO3",
+        "outputId": "8f7e9202-5562-4c4c-ef57-d94a5ddd1d80"
+      },
+      "execution_count": 55,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "(1, 'Javier', 38, 'Assassinato', '1,78cm', '75kg', 'Masculino', 'Mexicano')\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import sqlite3"
+      ],
+      "metadata": {
+        "id": "b_np11n-Sgcz"
+      },
+      "execution_count": 56,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "conn = sqlite3.connect(\"banco_alunos.db\") # cria arquivo se não existir\n",
+        "cursor = conn.cursor() # cria um cursor para executar comandos SQL"
+      ],
+      "metadata": {
+        "id": "aNeIjbqFSoTD"
+      },
+      "execution_count": 57,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "cursor.execute(\"\"\"\n",
+        "CREATE TABLE IF NOT EXISTS alunos (\n",
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,\n",
+        "nome TEXT,\n",
+        "idade INTEGER,\n",
+        "curso TEXT\n",
+        ")\n",
+        "\"\"\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "8UX9lNclSrfV",
+        "outputId": "6b1f83ed-72a8-4a57-f67a-8d13a8098ccd"
+      },
+      "execution_count": 58,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<sqlite3.Cursor at 0x78e64c3b32c0>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 58
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nome = input(\"Digite seu nome: \")\n",
+        "idade = int(input(\"Digite sua idade: \"))\n"
+      ],
+      "metadata": {
+        "id": "Lo31aL7OS0JU"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
